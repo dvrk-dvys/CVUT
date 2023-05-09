@@ -1,0 +1,70 @@
+1.  We take an undirected cycle and we assign randomly direction to each edge. What is the relation between the number of roots and number of leaves
+in the resulting directed graph?
+
+Solution: The number of roots equals the number of edges.
+
+2. A complete bipartite graph K_{m,n} is Hamiltonian. What can be said about values m and n?
+
+(A graph is Hamiltonian if it contains a Hamiltonian cycle that goes through all vertices.)
+Solution: m=n and m,n>1
+
+3.  We take an undirected cycle with 20 nodes and add another three edges in such way that the resulting graph contains an Eulerian cycle.
+We do not add any node. How many different (non-isomorphic) graphs can be produced this way?
+
+(A graph contains an Eulerian cycle if and only if it is connected and degree of each vertex is even.)
+Solution: The three added edges must form a triangle (otherwise there is a vertex of an odd degree). Let the triangle be formed of vertices A, B and C.
+Let a,b,c be lengths of paths between the vertices A,B,C sorted in the ascending order, i.e., we have a<=b<=c and a+b+c=20.
+Two such graphs with a triangle are non-isomorphic if they differ in the sequence a,b,c. So we have to count the number of sequence with the properties above.
+The sequences are:
+1,1,18
+1,2,17
+...
+1,8,11
+1,9,10
+[9 sequences]
+
+2,2,16
+2,3,15
+...
+2,8,10
+2,9,9
+[8 sequences]
+
+3,3,14
+...
+3,8,9
+[6 sequences]
+
+4,4,12
+...
+4,8,8
+[5 sequences]
+
+5,5,10,
+5,6,9
+5,7,8
+[3 sequences]
+
+6,6,8
+6,7,7
+[2 sequences]
+
+In total, there are 33 sequences.
+
+4.  We say that two directed graphs are weakly equivalent iff their respective condensations contain equal number of nodes. What is the best
+possible asymptotic complexity of verification whether two graphs are weakly equivalent?
+
+Solution: Given graphs G1=(V1,E1) and G2=(V2,E2). For each graph, use Tarjan's algorithm to find strongly connected components.
+It runs in time O(|V1|+|E1|) for G1 and in time O(|V2|+|E2|) for G2. Then, count the components (each component is a vertex in the
+condensation). Compare the numbers. Time complexity is O(|V1|+|E1|+|V2|+|E2|).
+
+5.  You have to find and write out all paths of length 3 in a simple (no parallel edges) directed acyclic graph. What is the maximum possible
+number of these paths relatively to the number of nodes in the graph? What is the asymptotic complexity of your algorithm? 
+
+Solution: Let n be the number of vertices. Construct the following acyclic graph: Divide vertices into four sets: A, B, C, D where each set
+contains n/4 vertices. Insert directed edges from each vertex of A to each vertex of B, similarly for each vertex of B to each vertex of C and
+from each vertex of C to each vertex of D. Then, any selection of 4 vertices where each belongs to a different set, forms a directed path of
+length 3, hence there can be (n/4)^4=\Theta(n^4) paths of length 3. On the other hand, the number of paths cannot be asymptotically higher as we
+need four distinct vertices for each path.
+Algorithm: From each vertex, perform a backtracking with depth limited to 3. Time complexity is bounded by the maximum number of paths,
+i.e. it is O(n^4).

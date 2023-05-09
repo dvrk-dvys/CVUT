@@ -1,0 +1,39 @@
+1. A binary heap with minimum key in the root contains exactly n^3 elements, where n is a positive integer. We have to remove n^2∙log(n) smallest elements  from this heap. 
+What is asymptotic complexity of this process? Will the complexity be different if we consider a binomial heap instead?
+
+Solution: After deleting n^2∙log(n), the heap still contains \Omega(n^3) elements, hence each DeleteMin takes time O(log(n^3))=O(3∙log(n))=O(log(n)). This implies that
+asymptotic complexity of the process is O(n^2∙log(n)∙log(n))=O(n^2∙log^2(n)). Binomial heap has the same asymptotic complexity of DeleteMin, hence the result will be
+the same.
+
+2. The depth of a d-ary heap is h and it is also the depth of all its leaves. Therefore, the number of leaves is d^h. What is the minimum and maximum possible number
+of keys comparisons which are perfomed in this heap during operation DeleteMin?
+
+Solution: 
+If h=1, then DeleteMin will always performs d-1 keys comparisons. Assume that h>=2. In the worst case, the key K that replaces the deleted key in the root
+bubbles down to the leaves level and d∙h keys comparisons are thus performed. On the other hand, it could happen that the key K is compared with children of the root,
+then it is swapped with e.g. the first child and the bubble down process finishes as children at this position are greater than K. Since we performed d keys comparisons
+in the root and d keys comparisons at the second level, the minimum number of keys comparisons is 2d (note that it cannot be better since K is definitely greater then
+the last root's child).
+
+3. What is the maximum possible degree (= number of children) of a key in a binomial heap with N elements?
+
+Solution: The maximum degree we search for is the degree of the root of the maximum order binomial tree. To determine it, we seek for largest k such that 2^k <= N.
+This means k equals floor of log_2(N).
+
+4. In general, the degree of a node in a binomial heap is not bounded from above, it can be arbitrarily big (providing the heap itself is sufficiently big).
+The children of the node are the roots of other binomial subtrees and the node stores the references to those roots in some structure S. There are two possibilities:
+1. The references in S are stored in sorted order according to the order of the trees they refer to.
+2. The references in S are stored in random order.
+Consider how the speed of operations Insert and DeleteMin is affected by implementing either possibility 1 or 2. Which one would you recommend and why? 
+
+Solution:
+The option number 1 is the standard implementation. It enables to perform Insert and DeleteMin in O(log(n)) time. It si recommended variant.
+The option number 2 can be handled in the same way as Fibonacci heap handles the process of consolidation (this works with a random order of trees).
+Time complexity of Insert and DeleteMin will remain O(log(n)), however, an additional auxiliary array of lenght O(log(n)) would be needed.
+
+5.  A Fibonacci heap is originally empty. Next, we insert 2n + 5 different keys (n > 2). Then we perform operation DeleteMin and consolidate the heap.
+How many binomial trees which have their roots in the root list of the heap will be there in the heap after the consolidation?
+
+Solution: 2^n+5 inserts create a Fibonacci heap consisting of 2^n+5 one-element trees. DeleteMin delets the tree containint the minimum key. The remaining 2^n+4 trees
+are consolidated - the trees are being merged until there are trees of different orders (degrees of roots). This merging process produces binomial trees only.
+Since 2^n+4=2^n+2^2, the resulting Fibonacci heap contains one binomial tree of order n (with 2^n nodes) and one binomial tree of order 2 (with 2^2 nodes).

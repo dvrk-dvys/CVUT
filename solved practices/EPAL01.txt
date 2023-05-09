@@ -1,0 +1,51 @@
+1. A weighted connected graph G1 is given. There is a unique MST in G1. Next, all edge weights of G1 are (A) increased by positive constant c  or  (B) multiplied by positive
+constant c. What is the relation between the MST of the original and updated graph in case (A) and (B)?
+
+Solution:
+Let G1=(V,E), let T be the minimum spanning tree of cost C.
+(A) The minimum spanning tree is identical. Its cost is C+c(|V|-1) (because T has |V|-1 edges).
+(B) The minimum spanning tree is identical. Its cost is c*C (C is a sum of weights w_1+...+w_n, where n=|V|-1; if each weight is multiplied by c, then
+the sum is c*w_1+...+c*w_n=c*(w_1+...+w_n)=c*C)
+
+2. The task is to find a spanning tree T of a given weighted graph. Also an interval <c1, c2> is given and the condition is stated that weight of each edge of T must be
+within <c1, c2>.  T is therefore not necessarily a MST and might not be unique. Can this task be solved by some standard MST approach or is there some other more efficient method?
+
+Solution:
+There is a more efficient method:
+- Remove all edges with weights not in interval <c1, c2>.
+- Perform the depth-first search on the modified graph. Output the constructed DFS-tree as a result.
+Time complexity of the algorithm is O(|V|+|E|). It is faster than the standard MST algorithms.
+Note that there is no solution if the modified graph is not connected. Also note that the breadth-first search can used as well to obtain a BFS-tree.
+
+3.  Recall the asymptotic complexities of Prim's and Kruskal's algorithms. Consider a graph G in which number of edges is four times bigger than the number of nodes.
+Which of these two algorithms processes G asymptotically faster? 
+
+Solution:
+We have a graph G=(V,E) such that |E|=4*|V|.
+Kruskal's algorithm runs in time O(|E|*log |V|).
+Prim's algorithm runs in time O(|E|*log |V|) if a binary heap is used, and in time O(|E|+|V|*log |V|) if Fibonacci's heap is used.
+However, all these time complexities are asymptotically identical for graphs fulfilling |E|=4*|V|.
+
+4. Let us consider a weighted undirected graph G which is represented by the weight matrix C. Determine the asymptotic complexity of Kruskal's algorithm under
+assumption that the time of access to any element of C is constant but on the other hand each operation Union and Find is proportional to the number of nodes of G.
+
+Solution:
+Let G=(V,E).
+Time complexity of  Kruskal's algorithm can be expressed as O(|V|*time_of_Union + |E|*time_of_Find).
+If we substitute O(|V|) for time_of_Union and time_of_Find, we get O(|V|*|V|+|E|*|V|)=O(|E|*|V|).
+
+5. You are asked to find a minimum spanning tree of a complete weighted graph with the help of your personal computer. The result should be available next morning
+and the machine can run overnight. Estimate the maximum number of nodes in the graph with which the task can be finished in time. It is sufficient to give only
+order of magnitude of that number (like 103, 104, ..., etc.). Explain your estimation.
+
+Solution:
+The complete graph on n vertices has m=n*(n-1)/2 edges.
+Prim's algorithm is of time complexity O(m*log n). We need an exact formula, so let us estimate the number of instructions performed by this algorithm as 40*m*ln(n).
+Let us assume that the program runs from 8 pm to 6 am, i.e., for 10 hours.
+Let us assume our computer performs 3*10^9 instructions per second.
+We need to solve the equation:
+40*n*(n-1)/2*ln(n)=10*60*60*3*10^9
+which is equivalent to
+n*(n-1)*ln(n)=56*10^11
+which results in n=7*10^5 (approximately)
+(The whole derivation above needs to be verified, I could have made a mistake.)
